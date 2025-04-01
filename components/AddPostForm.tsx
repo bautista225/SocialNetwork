@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { Button, Card, TextInput, useThemeColor } from "./Themed";
+import { Feather } from "@expo/vector-icons";
 
 interface Props {
   onSubmit: (content: string) => void;
@@ -7,14 +9,21 @@ interface Props {
 
 export default function AddPostForm({ onSubmit }: Props) {
   const [content, setContent] = useState("");
+  const color = useThemeColor({}, "primary");
   return (
-    <View style={styles.container}>
+    <Card style={styles.container}>
       <TextInput
         value={content}
         onChangeText={setContent}
-        placeholder="Write anything..."
-        style={styles.input}
+        placeholder="What's on your mind?"
       />
+
+      <Card style={styles.row}>
+        <TouchableOpacity>
+          <Feather name="image" size={24} color={color} />
+        </TouchableOpacity>
+      </Card>
+
       <Button
         title="Add Post"
         onPress={() => {
@@ -22,7 +31,7 @@ export default function AddPostForm({ onSubmit }: Props) {
           setContent("");
         }}
       />
-    </View>
+    </Card>
   );
 }
 
@@ -31,5 +40,9 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
   },
-  input: { borderColor: "gray", borderWidth: 1, padding: 8 },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });
