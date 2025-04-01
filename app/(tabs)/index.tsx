@@ -5,31 +5,13 @@ import { Text, View } from "@/components/Themed";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import AddPostForm from "@/components/AddPostForm";
-
-type Post = {
-  id: number;
-  created_at: string;
-  content: string;
-  user_id: string;
-};
+import { getPosts, Posts } from "@/lib/api";
 
 export default function TabOneScreen() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Posts>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.error("Error fetching posts:", error);
-      } else {
-        setPosts(data);
-      }
-    };
-
-    fetchPosts();
+    getPosts().then((data) => setPosts(data));
   }, []);
 
   console.log(posts);
