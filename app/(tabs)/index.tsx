@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import AddPostForm from "@/components/AddPostForm";
 import { getPosts, Posts } from "@/lib/api";
+import PostCard from "@/components/PostCard";
 
 export default function HomeScreen() {
   const [posts, setPosts] = useState<Posts>([]);
@@ -33,12 +34,8 @@ export default function HomeScreen() {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{new Date(item.created_at).toLocaleString()}</Text>
-            <Text>{item.content}</Text>
-          </View>
-        )}
+        contentContainerStyle={{ paddingTop: 8 }}
+        renderItem={({ item }) => <PostCard post={item} />}
       />
     </View>
   );
